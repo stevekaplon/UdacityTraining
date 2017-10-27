@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import './css/main.css';
+import  styles from './css/main.css';
 
 
 

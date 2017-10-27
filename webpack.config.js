@@ -1,6 +1,7 @@
 const path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
@@ -17,25 +18,91 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader']
+                })
+                // : [ 'style-loader', 'css-loader' ]
             },
             {
-                test: /.*\.(png|svg|jpg|gif)$/i,
+                test: /\.(jpe?g|png)$/i,
+                use: [
+                   /* {
+                        loader: 'file-loader',
+                        options: {
+                            name: './images/[name].[ext]'
+                        }
+                    },*/
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            optipng: {
+                                optimizationLevel: 7,
+                            },
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 50
+                            },
+                            // Specifying webp here will create a WEBP version of your JPG/PNG images
+                            webp: {
+                                quality: 75
+                            }
+                        }
+                    },
+                    {
+                        loader: 'responsive-loader',
+                        options: {
+                            // If you want to enable sharp support:
+                            adapter: require('responsive-loader/sharp'),
+                            sizes: [300, 1024],
+                            name: './images/[name]-[width].[ext]'
+                        }
+                    },
+
+                ]
+            }/*,
+            {
+                test: /\.(gif|svg)$/i,
                 use: [
                     {
-                        loader: 'file-loader'
+                        loader: 'file-loader',
+                        options: {
+                            name: './images/[name].[ext]'
+                        }
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            optipng: {
+                                optimizationLevel: 7,
+                            },
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 50
+                            },
+                            // Specifying webp here will create a WEBP version of your JPG/PNG images
+                            webp: {
+                                quality: 75
+                            }
+                        }
                     }
                 ]
-            }
+            }*/
         ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-          template: 'src/index.html'
+            template: './src/index.html'
+        }),
+        new ExtractTextPlugin({
+            filename: './css/[name].css'
         })
-      ]
+    ]
 };

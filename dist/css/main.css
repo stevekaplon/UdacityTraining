@@ -12,12 +12,12 @@ I've left some boilerplate below for you.
 
 */
 .myImage { 
-  background-image: url('../images_src/horses.jpg?size=1024')
+  background-image: url(./images/horses-1024.jpg)
  }
 
 @media (max-width: 480px) {
   .myImage { 
-    background-image: url('../images_src/horses.jpg?size=300')
+    background-image: url(./images/horses-300.jpg)
    }
 }
 body {
