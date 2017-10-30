@@ -5,16 +5,21 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
-    devServer: { inline: true },
+    devServer: {
+        inline: true,
+        contentBase: './dist'
+    },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     module: {
         rules: [
             {
                 test: /\.html$/,
                 loader: 'html-loader'
+
             },
             {
                 test: /\.css$/,
@@ -27,20 +32,14 @@ module.exports = {
             {
                 test: /\.(jpe?g|png)$/i,
                 use: [
-                   /* {
-                        loader: 'file-loader',
-                        options: {
-                            name: './images/[name].[ext]'
-                        }
-                    },*/
                     {
-                        loader: 'image-webpack-loader',
+                        loader: 'image-webpack-loader'/*,
                         options: {
                             gifsicle: {
                                 interlaced: false,
                             },
                             optipng: {
-                                optimizationLevel: 7,
+                                optimizationLevel: 5,
                             },
                             mozjpeg: {
                                 progressive: true,
@@ -50,15 +49,16 @@ module.exports = {
                             webp: {
                                 quality: 75
                             }
-                        }
+                        }*/
                     },
                     {
                         loader: 'responsive-loader',
                         options: {
                             // If you want to enable sharp support:
                             adapter: require('responsive-loader/sharp'),
-                            sizes: [300, 1024],
-                            name: './images/[name]-[width].[ext]'
+                            sizes: [1024],
+                            name: 'images/[name]-[width].[ext]',
+                            placeholder: true
                         }
                     },
 
