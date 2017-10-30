@@ -30,37 +30,47 @@ module.exports = {
                 // : [ 'style-loader', 'css-loader' ]
             },
             {
-                test: /\.(jpe?g|png)$/i,
+                test: /\.(gif|png|jpe?g|svg)$/i,
                 use: [
-                    {
-                        loader: 'image-webpack-loader'/*,
-                        options: {
-                            gifsicle: {
-                                interlaced: false,
-                            },
-                            optipng: {
-                                optimizationLevel: 5,
-                            },
-                            mozjpeg: {
-                                progressive: true,
-                                quality: 50
-                            },
-                            // Specifying webp here will create a WEBP version of your JPG/PNG images
-                            webp: {
-                                quality: 75
-                            }
-                        }*/
-                    },
                     {
                         loader: 'responsive-loader',
                         options: {
                             // If you want to enable sharp support:
                             adapter: require('responsive-loader/sharp'),
-                            sizes: [1024],
+                            sizes: [800, 300, 1024],
                             name: 'images/[name]-[width].[ext]',
-                            placeholder: true
+                            outputPath: 'images/',
+                            publicPath: 'images/',
+                            placeholder: false
                         }
                     },
+                   /* {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/',
+                        publicPath: 'images/'
+                    }
+                },*/
+                {
+                    loader: 'image-webpack-loader',
+                    options: {
+                       /* gifsicle: {
+                            interlaced: false,
+                        },
+                        optipng: {
+                            optimizationLevel: 5,
+                        },
+                        mozjpeg: {
+                            progressive: true,
+                            quality: 50
+                        },
+                        // Specifying webp here will create a WEBP version of your JPG/PNG images
+                        webp: {
+                            quality: 75
+                        }*/
+                    }
+                }
 
                 ]
             }/*,

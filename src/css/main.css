@@ -12,7 +12,7 @@ I've left some boilerplate below for you.
 
 */
 .horseImage { 
-  background: url('../images/horses.jpg?size=1024')
+  background: url('../images/horses.jpg?size=800')
  }
 
 @media (max-width: 480px) {
@@ -20,6 +20,7 @@ I've left some boilerplate below for you.
     background: url('../images/horses.jpg?size=300')
    }
 }
+
 body {
 
 }
