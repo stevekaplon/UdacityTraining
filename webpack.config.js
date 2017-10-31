@@ -30,6 +30,12 @@ module.exports = {
             },
             {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                include: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
+                exclude: [
+                    path.resolve(__dirname, "src/images")
+                ],
                 use: [{
                     loader: 'file-loader',
                     options: {
@@ -39,17 +45,24 @@ module.exports = {
                     }
                 }]
             },
-
-            /* {
-                 test: /\.css$/,
-                 use: ExtractTextPlugin.extract({
-                     fallback: 'style-loader',
-                     use: ['css-loader']
-                 })
- 
-             },*/
+             {
+                 test:/\.(svg)$/i,
+                 exclude: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/'
+                    }
+                }
+             },
             {
                 test: /\.(gif|png|jpe?g)$/i,
+                exclude: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
                 use: [
                     {
                         loader: 'responsive-loader',
@@ -59,7 +72,6 @@ module.exports = {
                             sizes: [1024, 800, 300, 6400],
                             name: 'images/[name]-[width].[ext]',
                             outputPath: 'images/',
-                            publicPath: 'images/',
                             placeholder: true,
                             placeholderSize: 50,
                             quality: 20
@@ -69,8 +81,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'images/',
-                            publicPath: 'images/'
+                            outputPath: 'images/'
                         }
                     }
 
