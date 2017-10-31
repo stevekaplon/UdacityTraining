@@ -22,38 +22,57 @@ module.exports = {
 
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader']
+                    use: ['css-loader', 'sass-loader']
                 })
-              
             },
             {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/',    // where the fonts will go
+                        publicPath: '../'       // override the default path
+                    }
+                }]
+            },
+
+            /* {
+                 test: /\.css$/,
+                 use: ExtractTextPlugin.extract({
+                     fallback: 'style-loader',
+                     use: ['css-loader']
+                 })
+ 
+             },*/
+            {
+                test: /\.(gif|png|jpe?g)$/i,
                 use: [
                     {
                         loader: 'responsive-loader',
                         options: {
                             // If you want to enable sharp support:
                             adapter: require('responsive-loader/sharp'),
-                            sizes: [1024, 800, 300,  6400],
+                            sizes: [1024, 800, 300, 6400],
                             name: 'images/[name]-[width].[ext]',
                             outputPath: 'images/',
                             publicPath: 'images/',
                             placeholder: true,
                             placeholderSize: 50,
-                            quality:20
+                            quality: 20
                         }
                     },
                     {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        outputPath: 'images/',
-                        publicPath: 'images/'
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'images/',
+                            publicPath: 'images/'
+                        }
                     }
-                }
 
                 ]
             }
@@ -66,6 +85,9 @@ module.exports = {
         }),
         new ExtractTextPlugin({
             filename: './css/[name].css'
-        })
+        })/*,
+        new ExtractTextPlugin({
+            filename: "[name].[contenthash].css"
+        })*/
     ]
 };
