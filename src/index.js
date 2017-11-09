@@ -1,1 +1,2 @@
-import  styles from './css/main.scss';
+
+require("./index.html");

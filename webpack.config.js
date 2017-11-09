@@ -1,33 +1,88 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 
 module.exports = {
     entry: './src/index.js',
+    //stats: "verbose",
     devServer: {
         inline: true,
         contentBase: './dist'
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         publicPath: '/'
     },
+ //   context: path.resolve(__dirname, '../'),
+
     module: {
         rules: [
-            {
-                test: /\.html$/,
-                loader: 'html-loader'
 
+            {
+                test: /\.(gif|png|jpe?g)$/i, 
+                exclude: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'images/'
+                        }
+                    }
+                    /*,{
+                        loader: 'responsive-loader',
+                        options: {
+                            // If you want to enable sharp support:
+                            adapter: require('responsive-loader/sharp'),
+                            sizes: [1024, 800, 300, 6400],
+                            name: 'images/[name]-[width].[ext]',
+                            outputPath: 'images/',
+                           
+                            quality: 20
+                        }
+                    }
+                    */
+
+                ]               
             },
+            {
+            test: /\.(svg)$/i, 
+            exclude: [
+                path.resolve(__dirname, "node_modules/font-awesome/fonts")
+            ],
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/'
+                    }
+                }
+
+            ]
+        },
             {
                 test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
-                })
+                use: [
+                    {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].css'
+                    }
+                },
+                {
+                    loader: 'extract-loader',
+                   
+                },
+                { loader: 'css-loader' },
+                { loader: 'sass-loader' }
+            ]
             },
+            
             {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 include: [
@@ -45,20 +100,25 @@ module.exports = {
                     }
                 }]
             },
-             {
-                 test:/\.(svg)$/i,
-                 exclude: [
-                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
-                ],
-                use: {
+            {
+                test: /\.(html)$/,
+                use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[ext]',
-                        outputPath: 'images/'
+                        name: '[name].[ext]'
                     }
-                }
-             },
-            {
+                },
+                {
+                    loader: 'extract-loader'
+                },
+                {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ["img:src","img:srcset", "link:href"]
+                    }
+                }]
+            }
+            /*{
                 test: /\.(gif|png|jpe?g)$/i,
                 exclude: [
                     path.resolve(__dirname, "node_modules/font-awesome/fonts")
@@ -86,19 +146,19 @@ module.exports = {
                     }
 
                 ]
-            }
+            }*/
         ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({
-            template: './src/index.html'
-        }),
-        new ExtractTextPlugin({
-            filename: './css/[name].css'
-        })/*,
-        new ExtractTextPlugin({
-            filename: "[name].[contenthash].css"
-        })*/
+        /*  new HtmlWebpackPlugin({
+              template: './src/index.html'
+          }),
+          new ExtractTextPlugin({
+              filename: './css/[name].css'
+          })*//*,
+new ExtractTextPlugin({
+    filename: "[name].[contenthash].css"
+})*/
     ]
 };
