@@ -15,6 +15,7 @@
     "advanced-image-loader": "^1.0.0",
     "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
+    "extract-loader": "^1.0.1",
     "file-loader": "^1.1.5",
     "font-awesome": "^4.7.0",
     "html-loader": "^0.5.1",
