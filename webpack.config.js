@@ -1,5 +1,5 @@
 const path = require('path');
-//const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
  //   context: path.resolve(__dirname, '../'),
@@ -26,27 +26,29 @@ module.exports = {
                     path.resolve(__dirname, "node_modules/font-awesome/fonts")
                 ],
                 use: [
+                 /*   {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].srcset.[ext]',
+                            outputPath: 'images/'
+                        }
+                    },
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]',
+                            name: '[name].srcset.[ext]',
                             outputPath: 'images/'
                         }
-                    }
-                    /*,{
-                        loader: 'responsive-loader',
+                    },*/{
+                        loader: 'advanced-image-loader',
                         options: {
-                            // If you want to enable sharp support:
-                            adapter: require('responsive-loader/sharp'),
-                            sizes: [1024, 800, 300, 6400],
-                            name: 'images/[name]-[width].[ext]',
-                            outputPath: 'images/',
-                           
-                            quality: 20
+                          width: 1280,
+                          srcset: [320, 640, 960, 1280, 1920],
+                          quality: 90,
+                          placeholder: 32,
+    name: 'images/[name]-[width]',
                         }
                     }
-                    */
-
                 ]               
             },
             {
@@ -100,24 +102,17 @@ module.exports = {
                     }
                 }]
             },
-            {
+           /* {
                 test: /\.(html)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]'
-                    }
-                },
-                {
-                    loader: 'extract-loader'
-                },
+                use: [
                 {
                     loader: 'html-loader',
                     options: {
-                        attrs: ["img:src","img:srcset", "link:href"]
+                        interpolate : true,
+                      //  attrs: ["img:src"]
                     }
                 }]
-            }
+            }*/
             /*{
                 test: /\.(gif|png|jpe?g)$/i,
                 exclude: [
@@ -151,12 +146,12 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-        /*  new HtmlWebpackPlugin({
+          new HtmlWebpackPlugin({
               template: './src/index.html'
-          }),
+          })/*,
           new ExtractTextPlugin({
               filename: './css/[name].css'
-          })*//*,
+          }),
 new ExtractTextPlugin({
     filename: "[name].[contenthash].css"
 })*/
