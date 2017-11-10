@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 
 module.exports = {
     entry: './src/index.js',
+    //stats: "verbose",
     devServer: {
         inline: true,
         contentBase: './dist'
@@ -14,105 +15,145 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
+ //   context: path.resolve(__dirname, '../'),
+
     module: {
         rules: [
-            {
-                test: /\.html$/,
-                loader: 'html-loader'
 
+            {
+                test: /\.(gif|png|jpe?g)$/i, 
+                exclude: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
+                use: [
+                 /*   {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].srcset.[ext]',
+                            outputPath: 'images/'
+                        }
+                    },
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].srcset.[ext]',
+                            outputPath: 'images/'
+                        }
+                    },*/{
+                        loader: 'advanced-image-loader',
+                        options: {
+                          width: 1280,
+                          srcset: [320, 640, 960, 1280, 1920],
+                          quality: 90,
+                          placeholder: 32,
+    name: 'images/[name]-[width]',
+                        }
+                    }
+                ]               
             },
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader']
-                })
-                // : [ 'style-loader', 'css-loader' ]
-            },
+            test: /\.(svg)$/i, 
+            exclude: [
+                path.resolve(__dirname, "node_modules/font-awesome/fonts")
+            ],
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/'
+                    }
+                }
+
+            ]
+        },
             {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /\.scss$/,
+                use: [
+                    {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].css'
+                    }
+                },
+                {
+                    loader: 'extract-loader',
+                   
+                },
+                { loader: 'css-loader' },
+                { loader: 'sass-loader' }
+            ]
+            },
+            
+            {
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                include: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
+                exclude: [
+                    path.resolve(__dirname, "src/images")
+                ],
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/',    // where the fonts will go
+                        publicPath: '../'       // override the default path
+                    }
+                }]
+            },
+           /* {
+                test: /\.(html)$/,
+                use: [
+                {
+                    loader: 'html-loader',
+                    options: {
+                        interpolate : true,
+                      //  attrs: ["img:src"]
+                    }
+                }]
+            }*/
+            /*{
+                test: /\.(gif|png|jpe?g)$/i,
+                exclude: [
+                    path.resolve(__dirname, "node_modules/font-awesome/fonts")
+                ],
                 use: [
                     {
                         loader: 'responsive-loader',
                         options: {
                             // If you want to enable sharp support:
                             adapter: require('responsive-loader/sharp'),
-                            sizes: [800, 300, 1024],
+                            sizes: [1024, 800, 300, 6400],
                             name: 'images/[name]-[width].[ext]',
                             outputPath: 'images/',
-                            publicPath: 'images/',
-                            placeholder: false
+                            placeholder: true,
+                            placeholderSize: 50,
+                            quality: 20
                         }
                     },
-                   /* {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        outputPath: 'images/',
-                        publicPath: 'images/'
-                    }
-                },*/
-                {
-                    loader: 'image-webpack-loader',
-                    options: {
-                       /* gifsicle: {
-                            interlaced: false,
-                        },
-                        optipng: {
-                            optimizationLevel: 5,
-                        },
-                        mozjpeg: {
-                            progressive: true,
-                            quality: 50
-                        },
-                        // Specifying webp here will create a WEBP version of your JPG/PNG images
-                        webp: {
-                            quality: 75
-                        }*/
-                    }
-                }
-
-                ]
-            }/*,
-            {
-                test: /\.(gif|svg)$/i,
-                use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name: './images/[name].[ext]'
-                        }
-                    },
-                    {
-                        loader: 'image-webpack-loader',
-                        options: {
-                            gifsicle: {
-                                interlaced: false,
-                            },
-                            optipng: {
-                                optimizationLevel: 7,
-                            },
-                            mozjpeg: {
-                                progressive: true,
-                                quality: 50
-                            },
-                            // Specifying webp here will create a WEBP version of your JPG/PNG images
-                            webp: {
-                                quality: 75
-                            }
+                            name: '[name].[ext]',
+                            outputPath: 'images/'
                         }
                     }
+
                 ]
             }*/
         ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({
-            template: './src/index.html'
-        }),
-        new ExtractTextPlugin({
-            filename: './css/[name].css'
-        })
+          new HtmlWebpackPlugin({
+              template: './src/index.html'
+          })/*,
+          new ExtractTextPlugin({
+              filename: './css/[name].css'
+          }),
+new ExtractTextPlugin({
+    filename: "[name].[contenthash].css"
+})*/
     ]
 };

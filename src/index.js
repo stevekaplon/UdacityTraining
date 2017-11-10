@@ -1,14 +1,7 @@
-import _ from 'lodash';
-import  styles from './css/main.css';
+
+//require("./index.html");
 
 
-
-function component() {
-    var element = document.createElement('div');
-
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-    return element;
-  }
-
-  document.body.appendChild(component());
+/*const image1 = require('./images/still_life.jpg');
+const image2 = require('responsive-loader!./images/still_life.jpg')
+console.log(JSON.stringify(image1));*/
