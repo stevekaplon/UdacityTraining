@@ -14,15 +14,6 @@ Hint! You'll probably want to start by styling:
 I've left some boilerplate below for you.
 
 */
-.horseImage { 
-  background: url('../images/horses.jpg?size=800')
- }
-
-@media (max-width: 480px) {
-  .horseImage { 
-    background: url('../images/horses.jpg?size=300')
-   }
-}
 
 body {
 
@@ -36,7 +27,20 @@ border-bottom: 1px solid #ddd;
 h1 {
 
 }
-
+.imageplaceholder{
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  transition: width 0.5s;
+  width: 50vw;
+  @media screen and (max-width:400px){
+          width: 100vw;
+        }
+}
 img {
 max-width: 100%;
+transition: width 0.5s;
+width: 50vw;
+@media screen and (max-width:400px){
+    width: 100vw;
+}
 }

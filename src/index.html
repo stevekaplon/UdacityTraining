@@ -26,8 +26,10 @@
 
   <h1>My responsive blog</h1>
   <article>
-    <div style="min-height: 100vw; background-size: contain; background-repeat: no-repeat; background-image: url(${require('./images/still_life.jpg').placeholder.src})">
-    <img style="width: 100%;"  src="${require('./images/still_life.jpg')}" srcset="${require('./images/still_life.jpg').srcset}">
+    <div class="imageplaceholder" style="background-image: url(${require('./images/still_life.jpg').placeholder.src})">
+    <img src="${require('./images/still_life.jpg')}" 
+    srcset="${require('./images/still_life.jpg').srcset}"
+    sizes="(max-width:400px) 100vw, 50vw">
   </div>
     <h2>My story</h2>
     <p>I love cheese, especially manchego swiss. &#128515; Fromage queso jarlsberg cheesy feet emmental cottage cheese camembert
