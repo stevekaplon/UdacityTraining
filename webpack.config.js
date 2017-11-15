@@ -1,7 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+var ImageminPlugin = require('imagemin-webpack-plugin').default
+var imageminMozjpeg = require('imagemin-mozjpeg');
 
 module.exports = {
     entry: './src/index.js',
@@ -26,9 +27,9 @@ module.exports = {
                     {
                         loader: 'advanced-image-loader',
                         options: {
-                          //  width: 1280,
+                            //  width: 1280,
                             srcset: [320, 640, 960, 1280, 1920],
-                            quality: 50,
+                            // quality: 100,
                             placeholder: 32,
                             name: 'images/[name]-[width]',
                         }
@@ -44,7 +45,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'css/[name].[ext]',
+                            name: '[name].[ext]',
                             outputPath: 'images/'
                         }
                     }
@@ -102,6 +103,22 @@ module.exports = {
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: './src/index.html'
+        }),
+        new ImageminPlugin({
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            plugins: [
+                imageminMozjpeg({
+                  quality: 50,
+                  progressive: true
+                })
+              ],
+            pngquant: {
+                quality: '50'
+            },
+            svgo:{
+
+            },
+            jpegtran: null
         })
     ]
 };
