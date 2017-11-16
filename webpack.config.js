@@ -28,7 +28,7 @@ module.exports = {
                         loader: 'advanced-image-loader',
                         options: {
                             //  width: 1280,
-                            srcset: [320, 640, 960, 1280, 1920],
+                            srcset: [320, 480, 640, 960, 1280, 1920],
                             // quality: 100,
                             placeholder: 32,
                             name: 'images/[name]-[width]',
